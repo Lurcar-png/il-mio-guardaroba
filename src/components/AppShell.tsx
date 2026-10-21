@@ -1,9 +1,7 @@
 import { Link, Outlet } from "@tanstack/react-router";
-import { Shirt, Layers, Sparkles as _unused, MessageCircle, User, Plus } from "lucide-react";
+import { Shirt, Layers, MessageCircle, User, Plus } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-
-void _unused;
 
 const NAV = [
   { to: "/", label: "Guardaroba", icon: Shirt },
