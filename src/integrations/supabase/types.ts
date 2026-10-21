@@ -14,7 +14,135 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      items: {
+        Row: {
+          category: Database["public"]["Enums"]["item_category"]
+          color: string | null
+          created_at: string
+          favorite: boolean
+          id: string
+          image_path: string
+          name: string
+          style: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["item_category"]
+          color?: string | null
+          created_at?: string
+          favorite?: boolean
+          id?: string
+          image_path: string
+          name: string
+          style?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["item_category"]
+          color?: string | null
+          created_at?: string
+          favorite?: boolean
+          id?: string
+          image_path?: string
+          name?: string
+          style?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      outfit_items: {
+        Row: {
+          item_id: string
+          outfit_id: string
+          user_id: string
+        }
+        Insert: {
+          item_id: string
+          outfit_id: string
+          user_id?: string
+        }
+        Update: {
+          item_id?: string
+          outfit_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outfit_items_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "outfit_items_outfit_id_fkey"
+            columns: ["outfit_id"]
+            isOneToOne: false
+            referencedRelation: "outfits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      outfits: {
+        Row: {
+          created_at: string
+          id: string
+          last_worn: string | null
+          name: string
+          notes: string | null
+          occasion: string | null
+          updated_at: string
+          user_id: string
+          worn_count: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_worn?: string | null
+          name: string
+          notes?: string | null
+          occasion?: string | null
+          updated_at?: string
+          user_id?: string
+          worn_count?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_worn?: string | null
+          name?: string
+          notes?: string | null
+          occasion?: string | null
+          updated_at?: string
+          user_id?: string
+          worn_count?: number
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +151,13 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      item_category:
+        | "giubbotti"
+        | "felpe"
+        | "maglie"
+        | "pantaloni"
+        | "scarpe"
+        | "accessori"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +284,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      item_category: [
+        "giubbotti",
+        "felpe",
+        "maglie",
+        "pantaloni",
+        "scarpe",
+        "accessori",
+      ],
+    },
   },
 } as const
