@@ -1,6 +1,6 @@
 # Guardaroba personale con outfit e Chat AI
 
-Web app privata che riproduce lo stile degli screenshot: sfondo bianco, colore principale turchese, pulsanti a pillola, schede con angoli arrotondati su grigio chiaro, menu in alto centrato.
+Web app privata che riproduce la struttura degli screenshot: colore principale blu elettrico, pulsanti a pillola, schede con angoli ben arrotondati, menu in alto centrato. Sfondo bianco o nero, scelto dalle Impostazioni (la scelta viene ricordata).
 
 ## Prima di iniziare (lo fai tu)
 Colleghi il tuo Supabase da Impostazioni progetto → General → External Supabase → Connect. Senza questo collegamento non si possono salvare capi, foto e outfit.
@@ -11,7 +11,7 @@ Colleghi il tuo Supabase da Impostazioni progetto → General → External Supab
 - **Crea Outfit**: a sinistra il guardaroba filtrabile, a destra la tela dove i capi scelti si dispongono come negli screenshot (sopra, pantaloni, scarpe, accessori di lato). Nome dell'outfit, occasione, pulsante Salva.
 - **Outfit**: griglia degli outfit salvati con l'impaginazione degli screenshot; apri, modifica, elimina.
 - **Chat AI**: scrivi una richiesta ("pranzo informale", "più elegante"), l'AI sceglie solo tra i tuoi capi e propone 2-3 outfit mostrati come schede grafiche, ognuno con una breve spiegazione e un pulsante "Salva outfit". La chat si azzera a ogni visita.
-- **Profilo**: nome, iniziale nel cerchio, conteggi di capi e outfit, esci.
+- **Profilo e Impostazioni**: nome, iniziale nel cerchio, conteggi di capi e outfit, scelta sfondo Bianco / Nero, esci.
 
 ## Extra utili
 - Ricerca per nome nel guardaroba.
@@ -24,4 +24,4 @@ Colleghi il tuo Supabase da Impostazioni progetto → General → External Supab
 - Archivio file privato `wardrobe` con cartelle per utente; immagini mostrate con URL firmati.
 - Route protette sotto `_authenticated/`, login su `/auth`.
 - Chat: server function autenticata che invia l'elenco dei capi (id, nome, categoria, colore, stile) al Lovable AI Gateway (`openai/gpt-6-astra`, Responses API) con output strutturato: lista di outfit con item_id e motivazione; gli id vengono validati sul server.
-- Font arrotondato simile agli screenshot (es. Nunito/Quicksand), token turchese in `styles.css`.
+- Font arrotondato simile agli screenshot (es. Nunito/Quicksand). Token blu elettrico (circa `oklch(0.55 0.25 262)`) in `styles.css`, temi `:root` (bianco) e `.dark` (nero) con classe sul tag html salvata in localStorage; raggio schede ~1.25rem.
