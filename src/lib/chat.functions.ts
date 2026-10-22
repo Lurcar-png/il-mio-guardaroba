@@ -90,7 +90,8 @@ Guardaroba: ${JSON.stringify(wardrobe)}`;
     try {
       const result = streamText({
         model: provider.responses("openai/gpt-6-astra"),
-        messages: [{ role: "system", content: system }, ...data.messages],
+        instructions: system,
+        messages: data.messages,
         output: Output.object({ schema }),
         maxRetries: 0,
         providerOptions: {
