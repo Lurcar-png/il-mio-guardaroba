@@ -52,8 +52,8 @@ function CreateOutfit() {
     setSelected((s) => (s.includes(itemId) ? s.filter((x) => x !== itemId) : [...s, itemId]));
 
   async function save() {
-    if (!name.trim()) return toast.error("Dai un nome all'outfit");
-    if (selected.length < 2) return toast.error("Scegli almeno 2 capi");
+    if (!name.trim()) { toast.error("Dai un nome all'outfit"); return; }
+    if (selected.length < 2) { toast.error("Scegli almeno 2 capi"); return; }
     setSaving(true);
     try {
       await saveOutfit({ id, name: name.trim().slice(0, 80), occasion: occasion.trim().slice(0, 60) || null, item_ids: selected });

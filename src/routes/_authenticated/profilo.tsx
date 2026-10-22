@@ -39,7 +39,7 @@ function ProfilePage() {
   async function saveName() {
     if (!profile) return;
     const { error } = await supabase.from("profiles").upsert({ id: profile.id, display_name: name.trim().slice(0, 60) });
-    if (error) return toast.error("Errore");
+    if (error) { toast.error("Errore"); return; }
     toast.success("Nome aggiornato");
     qc.invalidateQueries({ queryKey: ["profile"] });
   }

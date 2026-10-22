@@ -65,7 +65,7 @@ export function useImageUrls(items: Item[] | undefined) {
 }
 
 export async function saveOutfit(input: {
-  id?: string;
+  id?: string | undefined;
   name: string;
   occasion: string | null;
   notes?: string | null;

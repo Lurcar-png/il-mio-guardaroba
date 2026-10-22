@@ -46,13 +46,13 @@ function WardrobePage() {
 
   async function toggleFav(id: string, favorite: boolean) {
     const { error } = await supabase.from("items").update({ favorite: !favorite }).eq("id", id);
-    if (error) return toast.error("Errore");
+    if (error) { toast.error("Errore"); return; }
     qc.invalidateQueries({ queryKey: ["items"] });
   }
 
   async function remove(id: string, path: string) {
     const { error } = await supabase.from("items").delete().eq("id", id);
-    if (error) return toast.error("Impossibile eliminare");
+    if (error) { toast.error("Impossibile eliminare"); return; }
     await supabase.storage.from("wardrobe").remove([path]);
     toast.success("Capo eliminato");
     qc.invalidateQueries({ queryKey: ["items"] });
