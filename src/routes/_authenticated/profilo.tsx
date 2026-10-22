@@ -31,7 +31,9 @@ function ProfilePage() {
   const [name, setName] = useState("");
   const [theme, setThemeState] = useState<Theme>("light");
 
-  useEffect(() => setThemeState(getTheme()), []);
+  useEffect(() => {
+    setThemeState(getTheme());
+  }, []);
   useEffect(() => {
     if (profile) setName(profile.display_name);
   }, [profile]);
