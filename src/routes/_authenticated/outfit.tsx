@@ -31,13 +31,13 @@ function OutfitsPage() {
 
   async function wear(id: string, count: number) {
     const { error } = await supabase.from("outfits").update({ worn_count: count + 1, last_worn: new Date().toISOString() }).eq("id", id);
-    if (error) return toast.error("Errore");
+    if (error) { toast.error("Errore"); return; }
     toast.success("Segnato come indossato oggi");
     qc.invalidateQueries({ queryKey: ["outfits"] });
   }
   async function remove(id: string) {
     const { error } = await supabase.from("outfits").delete().eq("id", id);
-    if (error) return toast.error("Errore");
+    if (error) { toast.error("Errore"); return; }
     qc.invalidateQueries({ queryKey: ["outfits"] });
   }
 

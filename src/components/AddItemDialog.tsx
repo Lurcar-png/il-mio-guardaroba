@@ -16,7 +16,7 @@ export function AddItemDialog({
 }: {
   open: boolean;
   onOpenChange: (o: boolean) => void;
-  defaultCategory?: Category;
+  defaultCategory?: Category | undefined;
 }) {
   const qc = useQueryClient();
   const [file, setFile] = useState<File | null>(null);
@@ -43,8 +43,8 @@ export function AddItemDialog({
 
   async function save(e: React.FormEvent) {
     e.preventDefault();
-    if (!file) return toast.error("Scegli una foto");
-    if (!name.trim()) return toast.error("Dai un nome al capo");
+    if (!file) { toast.error("Scegli una foto"); return; }
+    if (!name.trim()) { toast.error("Dai un nome al capo"); return; }
     setSaving(true);
     try {
       const { data: u } = await supabase.auth.getUser();
