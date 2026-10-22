@@ -1,7 +1,18 @@
 import type { Item } from "@/lib/wardrobe";
 import { cn } from "@/lib/utils";
 
-/** Arranges an outfit's items like a flat-lay: tops, bottoms, shoes in the center, accessories on the side. */
+/**
+ * Flat-lay of an outfit, top to bottom in dressing order:
+ * outer layer (giubbotto / felpa) → maglia → pantaloni → scarpe, accessories on the side.
+ * Each row has a fixed share of the height so shoes stay small next to clothes.
+ */
+const ROWS: { key: string; cats: Item["category"][]; weight: number; maxW: string }[] = [
+  { key: "outer", cats: ["giubbotti", "felpe"], weight: 30, maxW: "max-w-[85%]" },
+  { key: "top", cats: ["maglie"], weight: 27, maxW: "max-w-[75%]" },
+  { key: "bottom", cats: ["pantaloni"], weight: 33, maxW: "max-w-[70%]" },
+  { key: "shoes", cats: ["scarpe"], weight: 14, maxW: "max-w-[45%]" },
+];
+
 export function OutfitBoard({
   items,
   urls,
@@ -15,23 +26,22 @@ export function OutfitBoard({
   className?: string;
   compact?: boolean;
 }) {
-  const tops = items.filter((i) => ["giubbotti", "felpe", "maglie"].includes(i.category));
-  const bottoms = items.filter((i) => i.category === "pantaloni");
-  const shoes = items.filter((i) => i.category === "scarpe");
   const acc = items.filter((i) => i.category === "accessori");
-  const center = [...tops, ...bottoms, ...shoes];
+  const rows = ROWS.map((r) => ({ ...r, items: items.filter((i) => r.cats.includes(i.category)) })).filter(
+    (r) => r.items.length > 0,
+  );
 
-  const Tile = ({ item, big }: { item: Item; big?: boolean }) => (
-    <div className={cn("group relative flex items-center justify-center", big ? "flex-1 min-h-0" : "")}>
+  const Tile = ({ item, maxW }: { item: Item; maxW: string }) => (
+    <div className="group relative flex h-full min-w-0 flex-1 items-center justify-center">
       {urls?.[item.image_path] ? (
         <img
           src={urls[item.image_path]}
           alt={item.name}
-          className={cn("max-h-full max-w-full object-contain drop-shadow-sm", !big && "h-full")}
+          className={cn("h-full w-auto object-contain drop-shadow-md", maxW)}
           loading="lazy"
         />
       ) : (
-        <div className="h-full w-full rounded-xl bg-muted" />
+        <div className="h-full w-2/3 rounded-xl bg-muted" />
       )}
       {onRemove && (
         <button
@@ -48,24 +58,28 @@ export function OutfitBoard({
 
   if (items.length === 0) {
     return (
-      <div className={cn("flex aspect-[4/5] items-center justify-center rounded-3xl bg-surface p-6 text-center text-sm text-muted-foreground", className)}>
+      <div className={cn("flex aspect-[4/5] items-center justify-center rounded-3xl bg-surface p-6 text-center text-sm font-semibold text-surface-foreground/60", className)}>
         Scegli i capi dal guardaroba per comporre l'outfit
       </div>
     );
   }
 
   return (
-    <div className={cn("flex aspect-[4/5] gap-3 rounded-3xl bg-surface", compact ? "p-3" : "p-6", className)}>
-      <div className="flex min-w-0 flex-[3] flex-col gap-2">
-        {center.map((i) => (
-          <Tile key={i.id} item={i} big />
+    <div className={cn("flex aspect-[4/5] gap-2 rounded-3xl bg-surface", compact ? "p-3" : "p-5", className)}>
+      <div className="flex min-h-0 min-w-0 flex-[4] flex-col gap-1.5">
+        {rows.map((r) => (
+          <div key={r.key} className="flex min-h-0 justify-center gap-2" style={{ flex: `${r.weight} 1 0%` }}>
+            {r.items.map((i) => (
+              <Tile key={i.id} item={i} maxW={r.items.length > 1 ? "max-w-full" : r.maxW} />
+            ))}
+          </div>
         ))}
       </div>
       {acc.length > 0 && (
-        <div className="flex min-w-0 flex-1 flex-col justify-center gap-3">
-          {acc.map((i) => (
-            <div key={i.id} className="h-1/4">
-              <Tile item={i} />
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col justify-center gap-3">
+          {acc.slice(0, 4).map((i) => (
+            <div key={i.id} className="flex h-[18%] min-h-0">
+              <Tile item={i} maxW="max-w-full" />
             </div>
           ))}
         </div>

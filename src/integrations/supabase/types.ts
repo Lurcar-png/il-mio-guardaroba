@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       items: {
         Row: {
+          brand: string | null
           category: Database["public"]["Enums"]["item_category"]
           color: string | null
           created_at: string
@@ -28,6 +29,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          brand?: string | null
           category: Database["public"]["Enums"]["item_category"]
           color?: string | null
           created_at?: string
@@ -40,6 +42,7 @@ export type Database = {
           user_id?: string
         }
         Update: {
+          brand?: string | null
           category?: Database["public"]["Enums"]["item_category"]
           color?: string | null
           created_at?: string

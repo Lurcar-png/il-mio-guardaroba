@@ -16,6 +16,7 @@ import { Route as AuthenticatedChatRouteImport } from './routes/_authenticated/c
 import { Route as AuthenticatedCreaOutfitRouteImport } from './routes/_authenticated/crea-outfit'
 import { Route as AuthenticatedOutfitRouteImport } from './routes/_authenticated/outfit'
 import { Route as AuthenticatedProfiloRouteImport } from './routes/_authenticated/profilo'
+import { Route as ApiCleanImageRouteImport } from './routes/api/clean-image'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -51,6 +52,11 @@ const AuthenticatedProfiloRoute = AuthenticatedProfiloRouteImport.update({
   path: '/profilo',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiCleanImageRoute = ApiCleanImageRouteImport.update({
+  id: '/api/clean-image',
+  path: '/api/clean-image',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/crea-outfit': typeof AuthenticatedCreaOutfitRoute
   '/outfit': typeof AuthenticatedOutfitRoute
   '/profilo': typeof AuthenticatedProfiloRoute
+  '/api/clean-image': typeof ApiCleanImageRoute
 }
 export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/crea-outfit': typeof AuthenticatedCreaOutfitRoute
   '/outfit': typeof AuthenticatedOutfitRoute
   '/profilo': typeof AuthenticatedProfiloRoute
+  '/api/clean-image': typeof ApiCleanImageRoute
   '/': typeof AuthenticatedIndexRoute
 }
 export interface FileRoutesById {
@@ -76,13 +84,28 @@ export interface FileRoutesById {
   '/_authenticated/crea-outfit': typeof AuthenticatedCreaOutfitRoute
   '/_authenticated/outfit': typeof AuthenticatedOutfitRoute
   '/_authenticated/profilo': typeof AuthenticatedProfiloRoute
+  '/api/clean-image': typeof ApiCleanImageRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/chat' | '/crea-outfit' | '/outfit' | '/profilo'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/chat'
+    | '/crea-outfit'
+    | '/outfit'
+    | '/profilo'
+    | '/api/clean-image'
   fileRoutesByTo: FileRoutesByTo
-  to: '/auth' | '/chat' | '/crea-outfit' | '/outfit' | '/profilo' | '/'
+  to:
+    | '/auth'
+    | '/chat'
+    | '/crea-outfit'
+    | '/outfit'
+    | '/profilo'
+    | '/api/clean-image'
+    | '/'
   id:
     | '__root__'
     | '/_authenticated'
@@ -91,12 +114,14 @@ export interface FileRouteTypes {
     | '/_authenticated/crea-outfit'
     | '/_authenticated/outfit'
     | '/_authenticated/profilo'
+    | '/api/clean-image'
     | '/_authenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiCleanImageRoute: typeof ApiCleanImageRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -150,6 +175,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProfiloRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/clean-image': {
+      id: '/api/clean-image'
+      path: '/api/clean-image'
+      fullPath: '/api/clean-image'
+      preLoaderRoute: typeof ApiCleanImageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -175,6 +207,7 @@ const AuthenticatedRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiCleanImageRoute: ApiCleanImageRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

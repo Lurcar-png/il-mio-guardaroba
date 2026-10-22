@@ -8,6 +8,8 @@ import { CATEGORIES, categoryLabel, useImageUrls, useItems, type Category } from
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AddItemDialog } from "@/components/AddItemDialog";
+import { WeatherCard } from "@/components/WeatherCard";
+import { useProfile } from "@/components/AppShell";
 import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
   AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
@@ -33,6 +35,7 @@ function WardrobePage() {
   const [cat, setCat] = useState<Category | "tutti" | "preferiti">("tutti");
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
+  const { data: profile } = useProfile();
 
   const filtered = useMemo(
     () =>
@@ -76,6 +79,8 @@ function WardrobePage() {
           <Plus className="mr-1 h-4 w-4" /> Aggiungi vestiti
         </Button>
       </div>
+
+      <WeatherCard name={profile?.display_name ?? ""} items={items ?? []} />
 
       <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-center">
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 md:mx-0 md:flex-wrap md:px-0">
@@ -132,6 +137,7 @@ function WardrobePage() {
                 <div className="min-w-0">
                   <p className="truncate font-bold text-foreground">{i.name}</p>
                   <p className="text-xs font-semibold text-muted-foreground">
+                    {i.brand ? `${i.brand} · ` : ""}
                     {categoryLabel(i.category)}
                     {i.color ? ` · ${i.color}` : ""}
                   </p>

@@ -104,7 +104,7 @@ function CreateOutfit() {
                     <div className="aspect-square">
                       {urls?.[i.image_path] && <img src={urls[i.image_path]} alt={i.name} className="h-full w-full object-contain" />}
                     </div>
-                    <p className="mt-1 truncate text-xs font-bold text-foreground dark:text-background">{i.name}</p>
+                    <p className="mt-1 truncate text-xs font-bold text-surface-foreground">{i.name}</p>
                     {on && (
                       <span className="absolute right-2 top-2 flex h-6 w-6 items-center justify-center rounded-full bg-primary text-primary-foreground">
                         <Check className="h-4 w-4" />
